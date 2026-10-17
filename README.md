@@ -78,9 +78,8 @@ when the user explicitly chooses one of its bulk controls.
   create/delete/reorder/upload test cases, or edit test-case content.
 - Native save success must be confirmed from the page; a changed input value
   alone is not proof that a save succeeded.
-- The verification tests intentionally check the small CommonJS helper contract
-  exported by `content.js`; the browser runtime still runs as a normal isolated
-  content script.
+- The browser runtime runs as a normal isolated content script with no runtime
+  dependency or test bundle.
 
 ## Phase 0 findings
 
@@ -103,15 +102,3 @@ changed Strength value remained after reload. The hidden error text is only a
 template until the page makes it visible or otherwise marks a row as failed.
 The extension should use these findings as a DOM contract, not as permission
 to make direct authenticated requests.
-
-## Tests
-
-The project has no runtime dependencies. With Node.js 18 or newer, run:
-
-```sh
-npm test
-```
-
-The command uses Node's built-in `node:test` runner. The tests cover range
-validation, score validation, replacing/idempotent row selection, additive
-range selection, range unselection, and native Additional toggle state.

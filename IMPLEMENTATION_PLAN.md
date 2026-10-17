@@ -23,7 +23,7 @@ The recommended MVP interpretation of “assign scoring in range” is: select r
 The workspace currently contains only the supplied reference page:
 
 ```text
-Reference-HTML-Page-Of-Hackerrank-problemsetting-page.txt
+references/Reference-HTML-Page-Of-Hackerrank-problemsetting-page.txt
 ```
 
 There is no existing extension scaffold, package manifest, build configuration, or test suite to preserve. The implementation should therefore start as a deliberately small vanilla JavaScript extension rather than introducing React, a bundler, or a framework.
@@ -182,9 +182,8 @@ hackerrank-bulk-testcases/
 ├── manifest.json
 ├── content.js
 ├── content.css
-├── test/
-│   ├── fixture.html
-│   └── content.test.js
+├── references/
+│   └── Reference-HTML-Page-Of-Hackerrank-problemsetting-page.txt
 └── README.md
 ```
 
@@ -354,7 +353,7 @@ The extension must not read cookies, CSRF tokens, passwords, local storage auth 
 
 ### Phase 4 — Harden and package
 
-- Add fixture-based unit tests.
+- Keep the sanitized reference material under `references/`.
 - Add a manual authenticated smoke-test checklist.
 - Test light/dark page styles and narrow viewport layout.
 - Test repeated tab changes and page re-renders.
@@ -365,42 +364,18 @@ The extension must not read cookies, CSRF tokens, passwords, local storage auth 
 
 ## 9. Test plan
 
-### 9.1 Unit tests
+### 9.1 Verification checklist
 
-Use Node's built-in test runner or the project's smallest available test tool. Do not add a large test framework just for this extension.
+The extension intentionally has no test folder or runtime test dependency. Before release, verify:
 
-Cover:
-
-- `parseRange(1, 3, 10)` returns rows 1–3.
-- Range boundaries are inclusive.
-- Zero, negative, decimal, blank, reversed, and non-numeric range inputs are handled according to the chosen contract.
-- Out-of-bounds ranges fail without touching the DOM.
-- Score validation rejects blank, negative, `NaN`, and infinite values.
-- Score validation preserves the exact accepted decimal/integer representation.
-- Selecting all is idempotent.
-- Clearing is idempotent.
+- Range boundaries are inclusive and invalid ranges are rejected.
+- Invalid scores are rejected.
+- Select all/Clear all update Select and Additional consistently.
+- Additive range selection preserves earlier ranges.
+- Range unselection affects only the requested range.
 - Re-running toolbar installation creates one toolbar, not duplicates.
-- Re-rendering rows does not leave stale references in the next operation.
 
-### 9.2 Fixture/integration tests
-
-Create a small sanitized fixture derived from the reference page, containing only:
-
-- the `.challenge-testcases` root;
-- a table with several rows;
-- order, `data-id`, checkbox, score input, and error element;
-- a fake native save handler that records events and simulates success/failure.
-
-Verify:
-
-- Select all changes every native checkbox.
-- Clear unchecks every native checkbox.
-- Range selection chooses exactly the requested inclusive rows.
-- Apply score updates only selected rows.
-- A failed row is highlighted and included in the summary.
-- A mutation/re-render causes the toolbar to be reused and counts to refresh.
-
-### 9.3 Authenticated manual smoke tests
+### 9.2 Authenticated manual smoke tests
 
 Run these against a throwaway or safe test challenge, never a production problem without a rollback plan:
 
@@ -417,7 +392,7 @@ Run these against a throwaway or safe test challenge, never a production problem
 11. Test light/dark mode and a narrow viewport.
 12. Confirm the extension is inactive on non-administration pages.
 
-### 9.4 Acceptance criteria
+### 9.3 Acceptance criteria
 
 The MVP is ready when all of the following are true:
 
@@ -467,7 +442,7 @@ The most important deferred item is total-score distribution. “Set every selec
 
 ## 12. Research sources
 
-- Workspace reference: `Reference-HTML-Page-Of-Hackerrank-problemsetting-page.txt`, especially lines 911–1005 for page structure and lines 1012 onward for row selectors, IDs, score inputs, and selection checkboxes.
+- Workspace reference: `references/Reference-HTML-Page-Of-Hackerrank-problemsetting-page.txt`, especially lines 911–1005 for page structure and lines 1012 onward for row selectors, IDs, score inputs, and selection checkboxes.
 - HackerRank target URL: <https://www.hackerrank.com/administration/challenges/edit/589358/testcases> (unauthenticated fetch returned the generic error/loading view; authenticated verification is still required).
 - Chrome Extensions — Content scripts: <https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts>
   - Supports DOM reads/changes from content scripts.
