@@ -1,0 +1,12 @@
+{
+  "name": "hackerrank-bulk-testcases",
+  "version": "0.1.7",
+  "private": true,
+  "description": "Dependency-free verification tests for the HackerRank bulk test-case extension.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "HackerRank Bulk Test Cases",
+  "version": "0.1.7",
+  "description": "Select and score HackerRank problem-setting test cases in bulk.",
+  "content_scripts": [
+    {
+      "matches": ["https://www.hackerrank.com/administration/challenges/edit/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

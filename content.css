@@ -1,0 +1,155 @@
+/* Keep the toolbar legible in HackerRank light and dark themes while allowing
+   the page's inherited text colors to remain the source of truth. */
+.hrx-bulk-toolbar {
+  --hrx-bulk-bg: transparent;
+  --hrx-bulk-control-bg: transparent;
+  --hrx-bulk-border: rgba(128, 128, 128, .5);
+  --hrx-bulk-accent: #1676d2;
+  --hrx-bulk-accent-contrast: #fff;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 6px;
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--hrx-bulk-border);
+  border-radius: 4px;
+  background: var(--hrx-bulk-bg);
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.35;
+  color-scheme: light dark;
+}
+
+.hrx-bulk-toolbar,
+.hrx-bulk-toolbar * { box-sizing: border-box; }
+.hrx-bulk-heading,
+.hrx-bulk-range,
+.hrx-bulk-score,
+.hrx-bulk-actions,
+.hrx-bulk-status { display: inline-flex; align-items: center; gap: 6px; }
+.hrx-bulk-footer {
+  display: grid;
+  grid-template-columns: minmax(90px, 1fr) minmax(0, 3fr) minmax(90px, 1fr);
+  flex: 1 0 100%;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding-top: 4px;
+}
+.hrx-bulk-heading,
+.hrx-bulk-actions,
+.hrx-bulk-range,
+.hrx-bulk-score { min-height: 30px; flex: 0 0 auto; }
+.hrx-bulk-heading { gap: 8px; margin-right: 0; white-space: nowrap; }
+.hrx-bulk-count { font-weight: 600; }
+.hrx-bulk-toolbar label { white-space: nowrap; }
+.hrx-bulk-toolbar input {
+  width: 46px;
+  min-height: 26px;
+  padding: 4px 6px;
+  border: 1px solid var(--hrx-bulk-border);
+  border-radius: 3px;
+  background: var(--hrx-bulk-control-bg);
+  color: inherit;
+  font: inherit;
+}
+.hrx-bulk-toolbar input.hrx-bulk-score-input { width: 62px; }
+.hrx-bulk-toolbar button {
+  min-height: 26px;
+  padding: 3px 7px;
+  border: 1px solid var(--hrx-bulk-border);
+  border-radius: 3px;
+  background: var(--hrx-bulk-control-bg);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  white-space: nowrap;
+}
+.hrx-bulk-toolbar button:hover:not(:disabled),
+.hrx-bulk-toolbar button:focus-visible {
+  border-color: var(--hrx-bulk-accent);
+  outline: 2px solid color-mix(in srgb, var(--hrx-bulk-accent) 35%, transparent);
+  outline-offset: 1px;
+}
+.hrx-bulk-toolbar button.hrx-bulk-apply {
+  border-color: var(--hrx-bulk-accent);
+  background: var(--hrx-bulk-accent);
+  color: var(--hrx-bulk-accent-contrast);
+}
+.hrx-bulk-toolbar button:disabled,
+.hrx-bulk-toolbar input:disabled { cursor: not-allowed; opacity: .55; }
+.hrx-bulk-status {
+  grid-column: 1;
+  justify-self: start;
+  width: 100%;
+  min-width: 0;
+  min-height: 18px;
+  overflow: hidden;
+  opacity: .8;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.hrx-bulk-reminder {
+  grid-column: 2;
+  justify-self: center;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid rgba(230, 170, 60, .65);
+  border-radius: 3px;
+  color: inherit;
+  font-size: 11px;
+  line-height: 1.25;
+  opacity: .82;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: normal;
+}
+.hrx-bulk-status[data-state="error"] { color: #d64545; font-weight: 600; opacity: 1; }
+.hrx-bulk-status[data-state="success"] { color: #2eaa5f; font-weight: 600; opacity: 1; }
+.hrx-bulk-failed-row { outline: 2px solid #d64545 !important; outline-offset: -2px; }
+@media (prefers-color-scheme: dark) {
+  .hrx-bulk-toolbar {
+    --hrx-bulk-bg: rgba(255, 255, 255, .06);
+    --hrx-bulk-control-bg: rgba(0, 0, 0, .18);
+    --hrx-bulk-border: rgba(255, 255, 255, .28);
+    --hrx-bulk-accent: #63a9f5;
+    --hrx-bulk-accent-contrast: #07111c;
+  }
+}
+.hrx-bulk-toolbar.hrx-bulk-dark {
+  --hrx-bulk-bg: rgba(255, 255, 255, .06);
+  --hrx-bulk-control-bg: rgba(0, 0, 0, .22);
+  --hrx-bulk-border: rgba(255, 255, 255, .28);
+  --hrx-bulk-accent: #63a9f5;
+  --hrx-bulk-accent-contrast: #07111c;
+}
+.hrx-bulk-toolbar.hrx-bulk-light {
+  --hrx-bulk-bg: rgba(247, 249, 251, .96);
+  --hrx-bulk-control-bg: rgba(255, 255, 255, .9);
+  --hrx-bulk-border: rgba(128, 128, 128, .5);
+  --hrx-bulk-accent: #1676d2;
+  --hrx-bulk-accent-contrast: #fff;
+}
+.hrx-bulk-toolbar .hrx-bulk-range-label,
+.hrx-bulk-toolbar .hrx-bulk-score { align-items: center; }
+@media (max-width: 700px) {
+  .hrx-bulk-toolbar { flex-wrap: wrap; }
+  .hrx-bulk-heading { flex-basis: 100%; margin-right: 0; }
+  .hrx-bulk-footer {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .hrx-bulk-status,
+  .hrx-bulk-reminder { flex-basis: 100%; }
+  .hrx-bulk-reminder { min-height: 32px; }
+}

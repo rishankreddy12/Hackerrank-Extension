@@ -1,0 +1,12 @@
+# OmniRush/private workspace metadata and attached screenshots
+.opencode/
+
+# Local dependencies and test outputs
+node_modules/
+coverage/
+dist/
+
+# Local/editor/OS files
+.DS_Store
+Thumbs.db
+*.log
