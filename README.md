@@ -1,104 +1,104 @@
 # HackerRank Bulk Test Cases
 
-This is a small Manifest V3 extension for authorized HackerRank problem
-setters. It is intended to select test cases by visible order and apply one
-score/strength value through HackerRank's existing page controls.
+## Why I built this extension
 
-## Install as an unpacked Chrome extension
+When setting a HackerRank problem, assigning test-case scores and configuring
+many test cases requires repetitive manual clicking. This extension was built
+to make that workflow faster and less error-prone while keeping HackerRank's
+native page and save behavior as the source of truth.
 
-1. Open Chrome or Chromium and visit `chrome://extensions`.
-2. Enable **Developer mode**.
-3. Click **Load unpacked**.
-4. Choose this project folder:
-   `C:\Users\rishankreddy\Desktop\ME\Hackerrank Extension`.
-5. If the browser shows **Access requested** for this extension, click the
-   **HackerRank Bulk Test Cases** entry and allow access on the current
-   `www.hackerrank.com` site. Alternatively open the extension's **Details**
-   page and set **Site access** to the HackerRank site.
-6. Open an authorized HackerRank problem-setting Test Cases page and reload it
-   after changing extension files.
+It is designed for authorized HackerRank problem setters and provides a small
+toolbar on the Test Cases page for:
 
-The extension should only be active on the HackerRank challenge-edit route and
-only when the page contains the Test Cases view. If Chrome reports a manifest
-or content-script problem, reload the extension from `chrome://extensions`.
-In Brave, use `brave://extensions` for the same controls. A gray/default
-extension icon is not an error; the working controls appear inside the
-HackerRank Test Cases page after site access is granted.
+- Selecting all test cases and enabling Additional for all of them.
+- Clearing all test-case selections and disabling Additional for all of them.
+- Selecting or unselecting an inclusive range using From and To values.
+- Updating the Strength value for the selected test cases in one operation.
+- Reviewing the current state before the native HackerRank save is performed.
 
-If the toolbar does not appear after granting access, open the extension's
-Details page, click **Errors**, and inspect the error message. Do not share
-cookies, CSRF tokens, authorization headers, or Network request contents when
-reporting an error.
+The extension does not call HackerRank's REST API directly. It operates on the
+existing page controls and uses HackerRank's native **Save Changes** button.
 
-## Usage
+## How to use the extension
+
+### Install as an unpacked extension
+
+1. Clone or download this repository.
+2. Open Chrome/Chromium at `chrome://extensions`, or Brave at
+   `brave://extensions`.
+3. Enable **Developer mode**.
+4. Click **Load unpacked**.
+5. Select the cloned repository folder.
+6. If the browser asks for site access, allow the extension to read and change
+   data on `www.hackerrank.com`.
+7. Open an authorized HackerRank problem-setting Test Cases page and reload it.
+
+The extension is scoped to HackerRank challenge-edit pages and activates only
+when the Test Cases view is present. A gray/default extension icon is normal;
+the working controls appear inside the HackerRank page.
+
+### Use the toolbar
 
 On the Test Cases page:
 
-- Use **Select all** to select every row and turn Additional on for every row.
-  Use **Clear all** to unselect every row and turn Additional off for every
-  row.
-- Enter a **1-based, inclusive** `From` to `To` range using the displayed
-  order. **Select Range** adds those rows to the current
-  selection and marks Additional for the same rows.
-- **Unselect Range** removes those rows from Select and turns
-  Additional off for the same range. Separate ranges can still be combined
-  safely because both actions use only the entered From/To range.
-- Enter a non-negative score/strength and apply it to the selected rows.
-- Review the boxed reminder and the displayed Select/Additional states before
-  final saving so test-case evaluation behavior is correct.
-- Review the selected rows and confirmation/progress status. After confirmation,
-  the extension updates the selected controls and clicks HackerRank's native
-  **Save Changes** button once.
+1. Use **Select all** to select every row and turn Additional on for every row.
+2. Use **Clear all** to unselect every row and turn Additional off for every
+   row.
+3. Enter a **1-based, inclusive** range in **From** and **To**.
+4. Click **Select Range** to add that range to the current selection and turn
+   Additional on for the same rows.
+5. Click **Unselect Range** to remove that range from Select and turn Additional
+   off for the same rows.
+6. Enter a non-negative value under **Strength**.
+7. Click **Apply to selected** and confirm the operation.
+8. Review the displayed Select and Additional states and the reminder message.
+9. HackerRank's native **Save Changes** button is then used to persist the
+   changes.
 
-The range is based on the user's visible order, while the captured HackerRank
-markup uses zero-based `data-index` values internally. The extension must not
-alter inputs, outputs, tags, or test-case ordering. Additional flags change only
-when the user explicitly chooses one of its bulk controls.
+The range uses the visible order shown on the page. The captured HackerRank
+markup uses zero-based `data-index` values internally, so the extension's
+user-facing From/To inputs remain 1-based for clarity.
 
 ## Safety and privacy
 
-- Use this only for HackerRank problems you are authorized to edit.
-- The intended implementation operates on the existing page DOM and native
-  controls. It does not need an account, backend, API token, cookie, CSRF
+- Use this extension only for HackerRank problems you are authorized to edit.
+- The extension does not require an account, backend, API token, cookie, CSRF
   token, or extension storage.
-- Saving should be performed by HackerRank's native **Save Changes** control;
-  the extension must not call the observed REST endpoint directly.
-- No test-case input/output contents should be collected, uploaded, or logged.
-- Review the selected rows and requested score before saving bulk changes.
+- It does not read, upload, or log test-case input/output contents.
+- It does not call HackerRank's observed REST endpoint directly.
+- Saving is delegated to HackerRank's native **Save Changes** control.
+- Review the selected rows, Additional states, and requested Strength before
+  confirming a bulk change.
 
 ## Limitations
 
-- HackerRank can change its DOM classes, save behavior, or page lifecycle at
-  any time. The selectors are based on the supplied reference HTML and need a
-  fresh authenticated smoke test after such changes.
-- The Phase 0 reference showed all currently loaded rows in the DOM; pagination
-  or virtualization is not covered by this verification fixture.
-- The MVP sets one common score and can explicitly turn Additional on or off
-  for an entered range. It does not distribute a total score,
-  create/delete/reorder/upload test cases, or edit test-case content.
-- Native save success must be confirmed from the page; a changed input value
-  alone is not proof that a save succeeded.
-- The browser runtime runs as a normal isolated content script with no runtime
-  dependency or test bundle.
+- HackerRank may change its DOM classes, save behavior, or page lifecycle.
+- The current implementation expects the currently available test cases to be
+  present in the page DOM; pagination and virtualization are not covered.
+- The MVP applies one common Strength value to the selected rows.
+- It does not create, delete, reorder, upload, or edit test-case contents.
+- Native save success must be confirmed from the page; changing an input value
+  alone is not proof that the server accepted the change.
 
-## Phase 0 findings
+## Troubleshooting
 
-The supplied reference HTML and implementation plan identify these relevant
-selectors:
+If the toolbar does not appear:
 
-- `.challenge-testcases` is the Test Cases root.
-- `.table-body > .row` contains each row.
-- `.order` displays the zero-based order, and `data-index` mirrors it.
-- `.case-score-text[data-id]` is the Strength input.
-- `input.testcase-selector[data-id]` is the native selection checkbox.
-- `.additional .toggle-flag[data-toggle="additional"][data-id]` is the native Additional toggle.
-- `.tick-save-error[data-id]` is a hidden row error element.
-- `button.save-challenge` is the global native **Save Changes** control.
+1. Confirm that the current URL is a HackerRank problem-setting Test Cases
+   page.
+2. Confirm that site access is enabled in the extension's Details page.
+3. Reload the extension from the browser's extensions page.
+4. Reload HackerRank with `Ctrl+Shift+R`.
+5. If the browser reports an extension error, inspect the Errors section.
 
-The recorded live-page checks found 88 currently loaded rows, native checkbox
-clicks changing their checked state, and a global save that batches changed
-test-case IDs in one `PUT` request. The observed response was `200 OK` and a
-changed Strength value remained after reload. The hidden error text is only a
-template until the page makes it visible or otherwise marks a row as failed.
-The extension should use these findings as a DOM contract, not as permission
-to make direct authenticated requests.
+Do not share cookies, CSRF tokens, authorization headers, or private Network
+request contents when reporting an issue.
+
+## Project structure
+
+```text
+manifest.json       Extension metadata and page scope
+content.js          Toolbar behavior and native DOM integration
+content.css         Toolbar styling and responsive layout
+references/         Sanitized HackerRank reference material
+```
