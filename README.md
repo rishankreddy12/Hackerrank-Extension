@@ -1,4 +1,14 @@
-# HackerRank Bulk Test Cases
+# HackerRank Test Case Bulk Selector — Chrome Extension
+
+A free, open-source Chrome extension for bulk-selecting and unselecting test cases in HackerRank Problem Setter → Test Cases.
+
+Features include:
+- Select all or clear all test-case checkboxes
+- Select or unselect an inclusive range of test cases
+- Toggle Additional states in bulk
+- Apply a common score/strength value to selected cases
+
+Built with Chrome Manifest V3 and vanilla JavaScript.
 
 ## Why I built this extension
 
